@@ -669,8 +669,8 @@ const bldhelper = (function() {
         }
     }
 
-    function track1(track1Str) {
-        switch (track1Str) {
+    function trackedge(s2) {
+        switch (s2) {
         case "A": return arra[1][8];
         case "B": return arra[5][2];
         case "C": return arra[1][4];
@@ -699,8 +699,8 @@ const bldhelper = (function() {
         }
     }
 
-    function track2(track2Str) {
-        switch (track2Str) {
+    function trackcorner(s1) {
+        switch (s1) {
         case "A": return arra[1][7];
         case "B": return arra[5][1];
         case "C": return arra[3][3];
@@ -731,14 +731,13 @@ const bldhelper = (function() {
 
 
     function cornerfull(s1) {
-        initialize();
         let cornerfullChar = "";
         operatealg(s1);
         for (let i = 1; i <= 24; i = i + 3) {
             if (cornerfullChar.indexOf(cornerCh[i]) === -1 && cornerfullChar.indexOf(cornerCh[i + 1]) === -1 && cornerfullChar.indexOf(cornerCh[i + 2]) === -1) {
                 let cornerpartChar = cornerCh[i];
-                while (track2(cornerpartChar[cornerpartChar.length - 1]) !== cornerpartChar[0]) {
-                    cornerpartChar = cornerpartChar + track2(cornerpartChar[cornerpartChar.length - 1]);
+                while (trackcorner(cornerpartChar[cornerpartChar.length - 1]) !== cornerpartChar[0]) {
+                    cornerpartChar = cornerpartChar + trackcorner(cornerpartChar[cornerpartChar.length - 1]);
                 }
                 if (cornerpartChar !== cornerCh[i]) {
                     cornerfullChar = cornerfullChar + cornerpartChar + cornerCh[i];
@@ -749,14 +748,13 @@ const bldhelper = (function() {
     }
 
     function edgefull(s1) {
-        initialize();
         let edgefullChar = "";
         operatealg(s1);
         for (let i = 1; i <= 24; i = i + 2) {
             if (edgefullChar.indexOf(edgeCh[i]) === -1 && edgefullChar.indexOf(edgeCh[i + 1]) === -1) {
                 let edgepartChar = edgeCh[i];
-                while (track1(edgepartChar[edgepartChar.length - 1]) !== edgepartChar[0]) {
-                    edgepartChar = edgepartChar + track1(edgepartChar[edgepartChar.length - 1]);
+                while (trackedge(edgepartChar[edgepartChar.length - 1]) !== edgepartChar[0]) {
+                    edgepartChar = edgepartChar + trackedge(edgepartChar[edgepartChar.length - 1]);
                 }
                 if (edgepartChar !== edgeCh[i]) {
                     edgefullChar = edgefullChar + edgepartChar + edgeCh[i];
@@ -782,11 +780,11 @@ const bldhelper = (function() {
         for (let i = 1; i <= 24; i = i + 2) {
             if (edgereadChar.indexOf(edgeCh[i]) === -1 && edgereadChar.indexOf(edgeCh[i + 1]) === -1) {
                 edgereadpartChar = edgeCh[i];
-                while (track1(edgereadpartChar[edgereadpartChar.length - 1]) !== edgereadpartChar[0] && nearedge(track1(edgereadpartChar[edgereadpartChar.length - 1])) !== edgereadpartChar[0]) {
-                    edgereadpartChar = edgereadpartChar + track1(edgereadpartChar[edgereadpartChar.length - 1]);
+                while (trackedge(edgereadpartChar[edgereadpartChar.length - 1]) !== edgereadpartChar[0] && nearedge(trackedge(edgereadpartChar[edgereadpartChar.length - 1])) !== edgereadpartChar[0]) {
+                    edgereadpartChar = edgereadpartChar + trackedge(edgereadpartChar[edgereadpartChar.length - 1]);
                 }
                 if (edgereadpartChar !== edgeCh[i]) {
-                    edgereadpartChar = edgereadpartChar + track1(edgereadpartChar[edgereadpartChar.length - 1]);
+                    edgereadpartChar = edgereadpartChar + trackedge(edgereadpartChar[edgereadpartChar.length - 1]);
                     edgereadChar = edgereadChar + edgereadpartChar;
                     if (edgeCh[i] !== edgeCh[1] && edgeCh[i] !== edgeCh[2]) {
                         cycleedge = cycleedge + 1;
@@ -812,7 +810,7 @@ const bldhelper = (function() {
         operatealg(s1);
         let edgeorientationOut = "";
         for (let i = 3; i <= 24; i = i + 2) {
-            if (track1(edgeCh[i]) === edgeCh[i + 1]) {
+            if (trackedge(edgeCh[i]) === edgeCh[i + 1]) {
                 edgeorientationOut = `${edgeorientationOut + edgeCh[i + 1] + edgeCh[i]} `;
             }
         }
@@ -844,11 +842,11 @@ const bldhelper = (function() {
         for (let i = 1; i <= 24; i = i + 3) {
             if (cornerreadChar.indexOf(cornerCh[i]) === -1 && cornerreadChar.indexOf(cornerCh[i + 1]) === -1 && cornerreadChar.indexOf(cornerCh[i + 2]) === -1) {
                 cornerreadpartChar = cornerCh[i];
-                while (track2(cornerreadpartChar[cornerreadpartChar.length - 1]) !== cornerreadpartChar[0] && nearcorner(track2(cornerreadpartChar[cornerreadpartChar.length - 1])) !== cornerreadpartChar[0] && track2(cornerreadpartChar[cornerreadpartChar.length - 1]) !== nearcorner(cornerreadpartChar[0])) {
-                    cornerreadpartChar = cornerreadpartChar + track2(cornerreadpartChar[cornerreadpartChar.length - 1]);
+                while (trackcorner(cornerreadpartChar[cornerreadpartChar.length - 1]) !== cornerreadpartChar[0] && nearcorner(trackcorner(cornerreadpartChar[cornerreadpartChar.length - 1])) !== cornerreadpartChar[0] && trackcorner(cornerreadpartChar[cornerreadpartChar.length - 1]) !== nearcorner(cornerreadpartChar[0])) {
+                    cornerreadpartChar = cornerreadpartChar + trackcorner(cornerreadpartChar[cornerreadpartChar.length - 1]);
                 }
                 if (cornerreadpartChar !== cornerCh[i]) {
-                    cornerreadpartChar = cornerreadpartChar + track2(cornerreadpartChar[cornerreadpartChar.length - 1]);
+                    cornerreadpartChar = cornerreadpartChar + trackcorner(cornerreadpartChar[cornerreadpartChar.length - 1]);
                     cornerreadChar = cornerreadChar + cornerreadpartChar;
                     if (cornerCh[i] !== cornerCh[1] && cornerCh[i] !== cornerCh[2] && cornerCh[i] !== cornerCh[3]) {
                         cyclecorner = cyclecorner + 1;
@@ -875,10 +873,10 @@ const bldhelper = (function() {
         operatealg(s1);
         let cornerorientationOut = "";
         for (let i = 4; i <= 24; i = i + 3) {
-            if (track2(cornerCh[i]) === cornerCh[i + 1]) {
+            if (trackcorner(cornerCh[i]) === cornerCh[i + 1]) {
                 cornerorientationOut = `${cornerorientationOut + cornerCh[i + 2] + cornerCh[i]} `;
             }
-            if (track2(cornerCh[i]) === cornerCh[i + 2]) {
+            if (trackcorner(cornerCh[i]) === cornerCh[i + 2]) {
                 cornerorientationOut = `${cornerorientationOut + cornerCh[i + 1] + cornerCh[i]} `;
             }
         }
