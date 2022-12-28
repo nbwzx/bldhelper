@@ -884,12 +884,146 @@ const bldhelper = (function() {
         return cornerorientationOut;
     }
 
+    function centerread(s1) {
+        operatealg(s1);
+        if (arra[1][5] === "U" && arra[5][5] === "F") {
+            return "";
+        }
+        if (arra[1][5] === "U" && arra[5][5] === "R") {
+            return "y'";
+        }
+        if (arra[1][5] === "U" && arra[5][5] === "B") {
+            return "y2";
+        }
+        if (arra[1][5] === "U" && arra[5][5] === "L") {
+            return "y";
+        }
+
+        if (arra[1][5] === "D" && arra[5][5] === "B") {
+            return "x2";
+        }
+        if (arra[1][5] === "D" && arra[5][5] === "F") {
+            return "z2";
+        }
+        if (arra[1][5] === "D" && arra[5][5] === "R") {
+            return "z2 y'";
+        }
+        if (arra[1][5] === "D" && arra[5][5] === "L") {
+            return "z2 y";
+        }
+
+        if (arra[1][5] === "F" && arra[5][5] === "U") {
+            return "z2 x";
+        }
+        if (arra[1][5] === "F" && arra[5][5] === "D") {
+            return "x'";
+        }
+        if (arra[1][5] === "F" && arra[5][5] === "L") {
+            return "z y";
+        }
+        if (arra[1][5] === "F" && arra[5][5] === "R") {
+            return "z' y'";
+        }
+
+        if (arra[1][5] === "B" && arra[5][5] === "U") {
+            return "x";
+        }
+        if (arra[1][5] === "B" && arra[5][5] === "D") {
+            return "z2 x'";
+        }
+        if (arra[1][5] === "B" && arra[5][5] === "L") {
+            return "z' y";
+        }
+        if (arra[1][5] === "B" && arra[5][5] === "R") {
+            return "z y'";
+        }
+
+        if (arra[1][5] === "L" && arra[5][5] === "U") {
+            return "z' x";
+        }
+        if (arra[1][5] === "L" && arra[5][5] === "D") {
+            return "z' x'";
+        }
+        if (arra[1][5] === "L" && arra[5][5] === "F") {
+            return "z'";
+        }
+        if (arra[1][5] === "L" && arra[5][5] === "B") {
+            return "z y2";
+        }
+
+        if (arra[1][5] === "R" && arra[5][5] === "U") {
+            return "z x";
+        }
+        if (arra[1][5] === "R" && arra[5][5] === "D") {
+            return "z x'";
+        }
+        if (arra[1][5] === "R" && arra[5][5] === "F") {
+            return "z";
+        }
+        if (arra[1][5] === "R" && arra[5][5] === "B") {
+            return "z' y2";
+        }
+        return "";
+    }
+
     function analyse() {
         const alg = String(document.getElementById("alg").value);
         const cornerbuffer = String(document.getElementById("cornerbuffer").value);
         const cornerorder = String(document.getElementById("cornerorder").value);
         const edgebuffer = String(document.getElementById("edgebuffer").value);
         const edgeorder = String(document.getElementById("edgeorder").value);
+        const cornerAlgToPos = {
+            "D": "UBL",
+            "G": "UBR",
+            "J": "UFR",
+            "A": "UFL",
+            "E": "LUB",
+            "C": "LUF",
+            "M": "LDF",
+            "Q": "LDB",
+            "B": "FUL",
+            "L": "FUR",
+            "Y": "FDR",
+            "N": "FDL",
+            "K": "RUF",
+            "I": "RUB",
+            "S": "RDB",
+            "Z": "RDF",
+            "H": "BUR",
+            "F": "BUL",
+            "P": "BDL",
+            "T": "BDR",
+            "W": "DFL",
+            "X": "DFR",
+            "R": "DBR",
+            "O": "DBL"
+        };
+        const edgeAlgToPos = {
+            "E": "UB",
+            "G": "UR",
+            "A": "UF",
+            "C": "UL",
+            "D": "LU",
+            "T": "LF",
+            "L": "LD",
+            "X": "LB",
+            "B": "FU",
+            "Q": "FR",
+            "J": "FD",
+            "S": "FL",
+            "H": "RU",
+            "Z": "RB",
+            "P": "RD",
+            "R": "RF",
+            "F": "BU",
+            "W": "BL",
+            "N": "BD",
+            "Y": "BR",
+            "I": "DF",
+            "O": "DR",
+            "M": "DB",
+            "K": "DL"
+        };
         cornerCh = ` ${cornerbuffer}${nearcorner(cornerbuffer)}${nearcorner(nearcorner(cornerbuffer))}`;
         for (let i = 0; i <= cornerorder.length - 1; i++) {
             cornerCh = cornerCh + cornerorder[i] + nearcorner(cornerorder[i]) + nearcorner(nearcorner(cornerorder[i]));
@@ -898,10 +1032,28 @@ const bldhelper = (function() {
         for (let i = 0; i <= edgeorder.length - 1; i++) {
             edgeCh = edgeCh + edgeorder[i] + nearedge(edgeorder[i]);
         }
-        let out = `棱块读码：${edgeread(alg)}\n`;
-        out = `${out}棱块翻色：${edgeorientation(alg)}\n`;
-        out = `${out}角块读码：${cornerread(alg)}\n`;
-        out = `${out}角块翻色：${cornerorientation(alg)}\n`;
+        let out = `缓冲：棱块 ${edgeAlgToPos[edgebuffer]}, 角块 ${cornerAlgToPos[cornerbuffer]}\n`;
+        const centerreadOut = centerread(alg);
+        if (centerreadOut.length > 0) {
+            out = `${out}坐标调整：${centerreadOut}\n`;
+        }
+        const algNew = `${alg} ${centerreadOut}`;
+        const edgereadOut = edgeread(algNew);
+        const edgeorientationOut = edgeorientation(algNew);
+        const cornerreadOut = cornerread(algNew);
+        const cornerorientationOut = cornerorientation(algNew);
+        if (edgereadOut.length > 0) {
+            out = `${out}棱块读码：${edgereadOut}\n`;
+        }
+        if (edgeorientationOut.length > 0) {
+            out = `${out}棱块翻色：${edgeorientationOut}\n`;
+        }
+        if (cornerreadOut.length > 0) {
+            out = `${out}角块读码：${cornerreadOut}\n`;
+        }
+        if (cornerorientationOut.length > 0) {
+            out = `${out}角块翻色：${cornerorientationOut}\n`;
+        }
         document.getElementById("out").innerHTML = out;
         document.getElementById("player").setAttribute("alg", alg);
     }
